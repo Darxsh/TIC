@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading - TIC Club</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16x16.png">
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            background-color: #121826;
+            color: #e6f1ff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gradient-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.15), rgba(0, 0, 0, 0));
+            z-index: 0;
+        }
+
+        /* Cursor blur effect */
+        .cursor-blur {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 40%, rgba(59, 130, 246, 0) 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            filter: blur(20px);
+            transition: background 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            padding: 0 20px;
+            z-index: 2;
+            opacity: 1;
+            transition: opacity 0.8s ease;
+        }
+
+        .container.fade-out {
+            opacity: 0;
+        }
+
+        .logo-wrapper {
+            margin-bottom: 40px;
+            transform: scale(0);
+            opacity: 0;
+            animation: logoAppear 1s cubic-bezier(0.3, 1.5, 0.7, 1) forwards;
+        }
+
+        .logo {
+            width: 180px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        .logo-text {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #4158d0, #56b8ea, #31dacc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .logo-sub {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-top: 5px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .loading-bar-container {
+            position: relative;
+            width: 100%;
+            margin: 40px 0;
+        }
+
+        .loading-bar {
+            height: 4px;
+            width: 100%;
+            background-color: rgba(148, 163, 184, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress {
+            position: absolute;
+            height: 100%;
+            width: 0;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #4158d0, #56b8ea, #31dacc);
+            transition: width 0.4s ease;
+        }
+
+        .loading-text {
+            display: flex;
+            justify-content: space-between;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .percent {
+            color: #38bdf8;
+            font-weight: 600;
+        }
+
+        .loading-animation {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .loading-circle {
+            width: 8px;
+            height: 8px;
+            margin: 0 5px;
+            border-radius: 50%;
+            background-color: #38bdf8;
+            animation: pulseAnimation 1.4s infinite ease-in-out;
+        }
+
+        .loading-circle:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-circle:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes pulseAnimation {
+            0%, 100% {
+                transform: scale(0.5);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .tech-features {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            gap: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: featuresAppear 0.8s ease forwards;
+            animation-delay: 0.7s;
+        }
+
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(14, 165, 233, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #38bdf8;
+            transition: all 0.3s ease;
+        }
+
+        .feature-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .feature-text {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        @keyframes logoAppear {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes featuresAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* For page transition */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121826;
+            z-index: 100;
+            transform: translateY(100%);
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .page-transition.transition-in {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    <div class="grid-overlay"></div>
+    <div class="particles" id="particles"></div>
+    <div class="cursor-blur" id="cursorBlur"></div>
+    <div class="page-transition" id="pageTransition"></div>
+    
+    <div class="container" id="container">
+        <div class="logo-wrapper">
+            <!-- TIC Logo SVG recreation based on the image provided -->
+            <svg width="180" height="100" viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg" class="logo">
+                <defs>
+                    <linearGradient id="tGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#1e3a8a"/>
+                        <stop offset="50%" stop-color="#3b82f6"/>
+                        <stop offset="100%" stop-color="#0ea5e9"/>
+                    </linearGradient>
+                    <linearGradient id="iGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#0ea5e9"/>
+                        <stop offset="100%" stop-color="#22d3ee"/>
+                    </linearGradient>
+                    <linearGradient id="cGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#0f766e"/>
+                        <stop offset="100%" stop-color="#2dd4bf"/>
+                    </linearGradient>
+                </defs>
+                <g transform="translate(0,10)">
+                    <!-- T letter -->
+                    <path d="M30,10 h30 v15 h-10 v45 h-15 v-45 h-10 v-15 z" fill="url(#tGradient)" />
+                    <!-- I letter -->
+                    <path d="M70,10 h20 v60 h-20 z" fill="url(#iGradient)" />
+                    <!-- C letter -->
+                    <path d="M140,40 a30,30 0 0,0 -30,-30 a30,30 0 0,0 -30,30 a30,30 0 0,0 30,30 a30,30 0 0,0 20,-7.5 v-15 a15,15 0 0,1 -20,5 a15,15 0 0,1 -5,-20 a15,15 0 0,1 20,-5 a15,15 0 0,1 10,15 z" fill="url(#cGradient)" />
+                </g>
+            </svg>
+            <div class="logo-text">Technical Innovation Club</div>
+            <div class="logo-sub">Explore · Innovate · Create</div>
+        </div>
+        
+        <div class="loading-bar-container">
+            <div class="loading-text">
+                <span>INITIALIZING PLATFORM</span>
+                <span class="percent" id="percentText">0%</span>
+            </div>
+            <div class="loading-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+        </div>
+        
+        <div class="loading-animation" id="loadingAnimation">
+            <div class="loading-circle"></div>
+            <div class="loading-circle"></div>
+            <div class="loading-circle"></div>
+        </div>
+        
+        <div class="tech-features">
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div class="feature-text">Workshops</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <div class="feature-text">Community</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <div class="feature-text">Innovation</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                    </svg>
+                </div>
+                <div class="feature-text">Projects</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const progress = document.getElementById('progress');
+            const percentText = document.getElementById('percentText');
+            const loadingAnimation = document.getElementById('loadingAnimation');
+            const container = document.getElementById('container');
+            const pageTransition = document.getElementById('pageTransition');
+            const particlesContainer = document.getElementById('particles');
+            const cursorBlur = document.getElementById('cursorBlur');
+            
+            // Set initial position of cursor blur (center of screen)
+            cursorBlur.style.left = '50%';
+            cursorBlur.style.top = '50%';
+            
+            // Update cursor blur position on mouse move
+            document.addEventListener('mousemove', function(e) {
+                // Get mouse position
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+                
+                // Update cursor blur position with smooth transition
+                cursorBlur.style.left = mouseX + 'px';
+                cursorBlur.style.top = mouseY + 'px';
+                
+                // Change color based on position for more dynamic effect
+                const hue = (mouseX / window.innerWidth) * 60 + 200; // Range from 200 to 260 (blue to purple)
+                cursorBlur.style.background = `radial-gradient(circle, hsla(${hue}, 80%, 60%, 0.3) 0%, hsla(${hue}, 80%, 60%, 0.1) 40%, hsla(${hue}, 80%, 60%, 0) 70%)`;
+            });
+            
+            // Create particles for background effect
+            function createParticles() {
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    // Random size, position, and opacity
+                    const size = Math.random() * 5 + 1;
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    const opacity = Math.random() * 0.5 + 0.1;
+                    
+                    particle.style.width = size + 'px';
+                    particle.style.height = size + 'px';
+                    particle.style.left = posX + '%';
+                    particle.style.top = posY + '%';
+                    particle.style.opacity = opacity;
+                    
+                    // Random floating animation
+                    const animDuration = Math.random() * 20 + 10;
+                    const animDelay = Math.random() * 5;
+                    
+                    particle.style.animation = `float ${animDuration}s infinite ease-in-out ${animDelay}s`;
+                    
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            
+            // Add floating animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes float {
+                    0%, 100% {
+                        transform: translateY(0) translateX(0);
+                    }
+                    25% {
+                        transform: translateY(-20px) translateX(10px);
+                    }
+                    50% {
+                        transform: translateY(-10px) translateX(-10px);
+                    }
+                    75% {
+                        transform: translateY(-30px) translateX(5px);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            createParticles();
+            
+            // Interactive particles that react to cursor
+            function addInteractiveParticles() {
+                document.addEventListener('mousemove', function(e) {
+                    const mouseX = e.clientX;
+                    const mouseY = e.clientY;
+                    
+                    // Get all particles
+                    const particles = document.querySelectorAll('.particle');
+                    
+                    particles.forEach(particle => {
+                        // Get particle position
+                        const rect = particle.getBoundingClientRect();
+                        const particleX = rect.left + rect.width / 2;
+                        const particleY = rect.top + rect.height / 2;
+                        
+                        // Calculate distance from mouse
+                        const distX = mouseX - particleX;
+                        const distY = mouseY - particleY;
+                        const distance = Math.sqrt(distX * distX + distY * distY);
+                        
+                        // If particle is close to cursor, move it slightly away
+                        if (distance < 100) {
+                            const moveX = (distX / distance) * (100 - distance) * 0.1;
+                            const moveY = (distY / distance) * (100 - distance) * 0.1;
+                            
+                            particle.style.transform = `translate(${-moveX}px, ${-moveY}px)`;
+                        } else {
+                            particle.style.transform = '';
+                        }
+                    });
+                });
+            }
+            
+            addInteractiveParticles();
+            
+            // Redirect to home page function
+            function redirectToHomePage() {
+                // Fade out the content
+                container.classList.add('fade-out');
+                
+                // Wait for fade out animation, then redirect
+                setTimeout(function() {
+                    // In a real implementation, you would redirect to your home page
+                    // For this demo, we'll just reload the page
+                    window.location.href = "home.html"; // Change this to your actual home page URL
+                }, 800);
+            }
+            
+            // Simulate loading progress with faster speed
+            let currentProgress = 0;
+            let loadingInterval = setInterval(function() {
+                // Much faster loading simulation
+                let increment = Math.random() * 4 + 2; // Faster increment
+                
+                currentProgress += increment;
+                
+                if (currentProgress >= 100) {
+                    currentProgress = 100;
+                    clearInterval(loadingInterval);
+                    
+                    // Short delay then redirect to home page
+                    setTimeout(function() {
+                        redirectToHomePage();
+                    }, 300);
+                }
+                
+                progress.style.width = currentProgress + '%';
+                percentText.textContent = Math.floor(currentProgress) + '%';
+            }, 80); // Faster interval
+        });
+    </script>
+</body>
+</html>

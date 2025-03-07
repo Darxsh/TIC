@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Calendar - TIC Club</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/calendar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <include src="/components/header.html"></include>
+    <script src="/js/loading.js"></script>
+</head>
+<body>
+    <!-- Include header -->
+    <div id="header-placeholder"></div>
+
+    <main class="calendar-wrapper">
+        <div class="calendar-hero">
+            <h1>Event Calendar</h1>
+            <p>Stay updated with all TIC Club activities and events</p>
+        </div>
+
+        <div class="calendar-container">
+            <div class="calendar-main">
+                <div class="calendar-header">
+                    <div class="calendar-controls">
+                        <button id="prevMonth" class="control-btn"><i class="fas fa-chevron-left"></i></button>
+                        <div class="current-month">
+                            <h2 id="currentMonth"></h2>
+                            <span id="currentYear"></span>
+                        </div>
+                        <button id="nextMonth" class="control-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="view-controls">
+                        <button class="view-btn active" data-view="month">Month</button>
+                        <button class="view-btn" data-view="week">Week</button>
+                        <button class="view-btn" data-view="agenda">Agenda</button>
+                    </div>
+                </div>
+
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Calendar will be generated here -->
+                </div>
+            </div>
+
+            <aside class="calendar-sidebar">
+                <div class="sidebar-section upcoming-section">
+                    <h3><i class="fas fa-calendar-alt"></i> Upcoming Events</h3>
+                    <div id="upcomingEvents" class="upcoming-events">
+                        <!-- Upcoming events will be listed here -->
+                    </div>
+                </div>
+
+                <div class="sidebar-section filter-section">
+                    <h3><i class="fas fa-filter"></i> Filters</h3>
+                    <div class="event-filters">
+                        <label class="filter-item">
+                            <input type="checkbox" checked data-type="workshop">
+                            <span class="filter-color workshop"></span>
+                            Workshops
+                        </label>
+                        <label class="filter-item">
+                            <input type="checkbox" checked data-type="seminar">
+                            <span class="filter-color seminar"></span>
+                            Seminars
+                        </label>
+                        <label class="filter-item">
+                            <input type="checkbox" checked data-type="hackathon">
+                            <span class="filter-color hackathon"></span>
+                            Hackathons
+                        </label>
+                        <label class="filter-item">
+                            <input type="checkbox" checked data-type="other">
+                            <span class="filter-color other"></span>
+                            Other Events
+                        </label>
+                    </div>
+                </div>
+
+                <div class="sidebar-section search-section">
+                    <h3><i class="fas fa-search"></i> Search Events</h3>
+                    <div class="search-box">
+                        <input type="text" id="eventSearch" placeholder="Search events...">
+                        <button id="searchBtn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Event Details Modal -->
+        <div id="eventModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div class="event-details-content">
+                    <h2 id="modalEventTitle"></h2>
+                    <div class="event-meta">
+                        <p id="modalEventDate"><i class="fas fa-calendar"></i> <span></span></p>
+                        <p id="modalEventTime"><i class="fas fa-clock"></i> <span></span></p>
+                        <p id="modalEventLocation"><i class="fas fa-map-marker-alt"></i> <span></span></p>
+                    </div>
+                    <div class="event-description" id="modalEventDescription"></div>
+                    <div class="event-actions">
+                        <button class="btn-primary" id="addToCalendar">
+                            <i class="fas fa-calendar-plus"></i> Add to Calendar
+                        </button>
+                        <button class="btn-secondary" id="shareEvent">
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Include footer -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        let currentDate = new Date();
+        let events = [];
+        let filteredEvents = [];
+        let currentView = 'month';
+
+        // Fetch events from the server
+        async function fetchEvents() {
+            try {
+                const response = await fetch('/api/calendar');
+                events = await response.json();
+                filteredEvents = [...events];
+                renderCalendar();
+                renderUpcomingEvents();
+            } catch (error) {
+                console.error('Error fetching events:', error);
+            }
+        }
+
+        // Render the calendar
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            // Update month and year display
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"];
+            document.getElementById('currentMonth').textContent = monthNames[month];
+            document.getElementById('currentYear').textContent = year;
+
+            // Generate calendar grid
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const totalDays = lastDay.getDate();
+            const startingDay = firstDay.getDay();
+
+            const calendarGrid = document.getElementById('calendarGrid');
+            calendarGrid.innerHTML = '';
+
+            // Add day headers
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            days.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = day;
+                calendarGrid.appendChild(dayHeader);
+            });
+
+            // Add empty cells for days before start of month
+            for (let i = 0; i < startingDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day empty';
+                calendarGrid.appendChild(emptyDay);
+            }
+
+            // Add days of the month
+            for (let day = 1; day <= totalDays; day++) {
+                const dayCell = document.createElement('div');
+                dayCell.className = 'calendar-day';
+                
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayEvents = filteredEvents.filter(event => {
+                    const eventDate = new Date(event.date);
+                    return eventDate.toISOString().split('T')[0] === dateStr;
+                });
+
+                const isToday = new Date().toDateString() === new Date(year, month, day).toDateString();
+                if (isToday) dayCell.classList.add('today');
+
+                dayCell.innerHTML = `
+                    <span class="day-number">${day}</span>
+                    <div class="day-events">
+                        ${dayEvents.map(event => `
+                            <div class="calendar-event ${event.type}" 
+                                 onclick="showEventDetails('${event._id}')"
+                                 title="${event.title}">
+                                <span class="event-time">${formatTime(new Date(event.date))}</span>
+                                <span class="event-title">${event.title}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                calendarGrid.appendChild(dayCell);
+            }
+        }
+
+        // Format time for display
+        function formatTime(date) {
+            return date.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+        }
+
+        // Show event details in modal
+        function showEventDetails(eventId) {
+            const event = events.find(e => e._id === eventId);
+            if (!event) return;
+
+            document.getElementById('modalEventTitle').textContent = event.title;
+            document.getElementById('modalEventDate').querySelector('span').textContent = 
+                new Date(event.date).toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            document.getElementById('modalEventTime').querySelector('span').textContent = 
+                formatTime(new Date(event.date));
+            document.getElementById('modalEventLocation').querySelector('span').textContent = 
+                event.location || 'TBD';
+            document.getElementById('modalEventDescription').textContent = event.description || 'No description available';
+            
+            document.getElementById('eventModal').style.display = 'block';
+        }
+
+        // Close modal
+        document.querySelector('.close-modal').onclick = function() {
+            document.getElementById('eventModal').style.display = 'none';
+        }
+
+        // Filter events
+        document.querySelectorAll('.filter-item input').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const checkedTypes = Array.from(document.querySelectorAll('.filter-item input:checked'))
+                    .map(input => input.dataset.type);
+                
+                filteredEvents = events.filter(event => checkedTypes.includes(event.type));
+                renderCalendar();
+                renderUpcomingEvents();
+            });
+        });
+
+        // Search events
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            const searchTerm = document.getElementById('eventSearch').value.toLowerCase();
+            filteredEvents = events.filter(event => 
+                event.title.toLowerCase().includes(searchTerm) ||
+                (event.description && event.description.toLowerCase().includes(searchTerm)) ||
+                (event.location && event.location.toLowerCase().includes(searchTerm))
+            );
+            renderCalendar();
+            renderUpcomingEvents();
+        });
+
+        // View controls
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentView = this.dataset.view;
+                // Implement different view renders here
+            });
+        });
+
+        // Navigation handlers
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        });
+
+        // Initial load
+        fetchEvents();
+    </script>
+    <include src="/components/footer.html"></include>
+    <script src="/js/include.js"></script>
+</body>
+</html>

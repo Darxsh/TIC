@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Events - TIC</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png">
+    <link rel="stylesheet" href="/css/events.css">
+    <link rel="stylesheet" href="/css/all-events.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="/js/loading.js"></script>
+    <include src="/components/header.html"></include>
+</head>
+<body>
+    <div class="container">
+        <div class="back-button-container">
+            <a href="/pages/events.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Back to Events
+            </a>
+        </div>
+        
+        <div class="events-header">
+            <h1>All Events</h1>
+            <p class="subtitle">Browse through all our exciting events and workshops</p>
+            
+            <div class="events-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+                <button class="filter-btn" data-filter="ongoing">Ongoing</button>
+                <button class="filter-btn" data-filter="past">Past</button>
+            </div>
+        </div>
+
+        <div class="events-grid">
+            <!-- Event Cards will be dynamically populated -->
+        </div>
+    </div>
+    <include src="/components/footer.html"></include>
+    <script src="/js/all-events.js"></script>
+</body>
+</html>

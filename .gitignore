@@ -1,0 +1,14 @@
+node_modules/
+.env
+.DS_Store
+*.log
+.vscode/
+.idea/
+
+# Sensitive files
+**/firebase-service-account.json
+**/google-drive-credentials.json
+**/*.key
+**/*.pem
+**/credentials.json
+**/.env.*

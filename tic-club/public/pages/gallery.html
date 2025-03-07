@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - TIC Club</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png">
+    <link rel="stylesheet" href="/css/gallery.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="/js/loading.js"></script>
+    <include src="/components/header.html"></include>
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Our Gallery</h1>
+        <p>Explore moments from our tech events, workshops, and community gatherings. Witness innovation in action!</p>
+    </section>
+
+    <!-- Gallery Section -->
+    <div class="gallery-container">
+        <!-- Gallery Filters -->
+        <div class="gallery-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="events">Events</button>
+            <button class="filter-btn" data-filter="workshops">Workshops</button>
+            <button class="filter-btn" data-filter="hackathons">Hackathons</button>
+            <button class="filter-btn" data-filter="videos">Videos</button>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Content will be loaded dynamically -->
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <div class="lightbox-content"></div>
+    </div>
+
+    <include src="/components/footer.html"></include>
+    <script src="/js/include.js"></script>
+    <script>
+        // Gallery data structure
+        const galleryItems = [
+            {
+                type: 'image',
+                category: 'events',
+                src: '/images/gallery/techfusion.jpg',
+                title: 'Techfusion 2k25',
+                date: 'January 2025',
+                tags: ['Event', 'Tech']
+            },
+            {
+                type: 'video',
+                category: 'videos',
+                src: '/images/gallery/social.mp4',
+                poster: '/images/gallery/video-poster.jpg',
+                title: 'Social media',
+                date: '2025',
+                tags: ['Video', 'Social']
+            },
+            {
+                type: 'image',
+                category: 'workshops',
+                src: '/images/gallery/tech edu.jpg',
+                title: 'Tech Edu Workshop by TIC',
+                date: 'February 2025',
+                tags: ['Workshop', 'Education']
+            },
+            {
+                type: 'image',
+                category: 'events',
+                src: '/images/gallery/mem1.jpg',
+                title: 'Techfusion 2k25',
+                date: 'January 2025',
+                tags: ['Featured', 'Event']
+            },
+            {
+                type: 'video',
+                category: 'videos',
+                src: '/images/gallery/techfusion.mp4',
+                poster: '/images/gallery/video-poster.jpg',
+                title: 'Techfusion 2025',
+                date: 'December 2023',
+                tags: ['Video', 'Event']
+            },
+            {
+                type: 'image',
+                category: 'hackathons',
+                src: '/images/gallery/mem2.jpg',
+                title: 'Techfusion Gaming Zone 2025',
+                date: 'January 2025',
+                tags: ['Event', 'Gaming']
+            },
+            {
+                type: 'image',
+                category: 'events',
+                src: '/images/gallery/mem3.jpg',
+                title: 'TechFusion 2024',
+                date: 'August 2024',
+                tags: ['Techfusion 2024', 'New Team']
+            },
+            {
+                type: 'video',
+                category: 'videos',
+                src: '/images/gallery/mem6.mp4',
+                poster: '/images/gallery/video-poster.jpg',
+                title: 'Hackathon Recap',
+                date: 'January 2024',
+                tags: ['Video', 'Hackathon']
+            },
+            {
+                type: 'video',
+                category: 'videos',
+                src: '/images/gallery/mem5.mp4',
+                poster: '/images/gallery/video-poster.jpg',
+                title: 'Hackathon Recap',
+                date: 'January 2024',
+                tags: ['Video', 'Hackathon']
+            },
+            {
+                type: 'image',
+                category: 'events',
+                src: '/images/gallery/mem4.jpg',
+                title: 'TechFusion 2024',
+                date: 'August 2024',
+                tags: ['Techfusion 2024', 'New Team']
+            },
+            {
+                type: 'video',
+                category: 'videos',
+                src: '/images/gallery/mem7.mp4',
+                poster: '/images/gallery/video-poster.jpg',
+                title: 'Hackathon Recap',
+                date: 'January 2024',
+                tags: ['Video', 'Hackathon']
+            },
+            {
+                type: 'video',
+                category: 'videos',
+                src: '/images/gallery/mem8.mp4',
+                poster: '/images/gallery/video-poster.jpg',
+                title: 'Hackathon Recap',
+                date: 'January 2024',
+                tags: ['Video', 'Hackathon']
+            },
+            {
+                type: 'video',
+                category: 'videos',
+                src: '/images/gallery/mem9.mp4',
+                poster: '/images/gallery/video-poster.jpg',
+                title: 'Hackathon Recap',
+                date: 'January 2024',
+                tags: ['Video', 'Hackathon']
+            },
+        ];
+
+        // Performance optimization: Create a DocumentFragment for batch DOM updates
+        function createGalleryFragment(items) {
+            const fragment = document.createDocumentFragment();
+            items.forEach((item, index) => {
+                const galleryItem = createGalleryItem(item, index);
+                fragment.appendChild(galleryItem);
+            });
+            return fragment;
+        }
+
+        // Initialize Intersection Observer for lazy loading
+        const observerOptions = {
+            root: null,
+            rootMargin: '100px', // Increased margin for earlier loading
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const mediaElement = entry.target.querySelector('video, img');
+                    if (mediaElement) {
+                        if (mediaElement.tagName === 'VIDEO') {
+                            // Optimize video loading
+                            if (!mediaElement.dataset.loaded) {
+                                mediaElement.load();
+                                mediaElement.dataset.loaded = 'true';
+                            }
+                            mediaElement.play().catch(() => {});
+                        } else {
+                            // Optimize image loading
+                            if (mediaElement.dataset.src) {
+                                mediaElement.src = mediaElement.dataset.src;
+                                delete mediaElement.dataset.src;
+                            }
+                        }
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Debounce function for performance
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Create gallery item with optimized media loading
+        function createGalleryItem(item, index) {
+            const div = document.createElement('div');
+            const isFeatured = (index + 1) % 5 === 0;
+            div.className = `gallery-item${item.type === 'video' ? ' video-item' : ''}${isFeatured ? ' featured' : ''}`;
+            div.setAttribute('data-category', item.category);
+
+            let mediaHTML = '';
+            if (item.type === 'video') {
+                mediaHTML = `
+                    <video src="${item.src}" muted loop preload="none" poster="${item.poster}" data-src="${item.src}"></video>
+                    <div class="video-indicator">
+                        <i class="fas fa-play"></i>
+                    </div>`;
+            } else {
+                // Use data-src for lazy loading images
+                mediaHTML = `<img data-src="${item.src}" alt="${item.title}" loading="lazy">`;
+            }
+
+            div.innerHTML = `
+                ${mediaHTML}
+                <div class="gallery-overlay">
+                    <h3 class="gallery-title">${item.title}</h3>
+                    <p class="gallery-date">${item.date}</p>
+                    <div class="gallery-tags">
+                        ${item.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                </div>`;
+
+            return div;
+        }
+
+        // Optimized filter function with animation frame
+        const filterGallery = debounce((category) => {
+            const items = document.querySelectorAll('.gallery-item');
+            const visibleItems = Array.from(items).filter(item => 
+                category === 'all' || item.dataset.category === category
+            );
+
+            requestAnimationFrame(() => {
+                items.forEach(item => {
+                    const shouldShow = category === 'all' || item.dataset.category === category;
+                    item.style.opacity = '0';
+                    item.style.display = shouldShow ? 'block' : 'none';
+                    
+                    if (shouldShow) {
+                        const visibleIndex = visibleItems.indexOf(item);
+                        item.classList.toggle('featured', (visibleIndex + 1) % 5 === 0);
+                        requestAnimationFrame(() => {
+                            item.style.opacity = '1';
+                        });
+                    }
+                });
+            });
+        }, 150);
+
+        // Initialize gallery with performance optimizations
+        async function initGallery() {
+            const grid = document.getElementById('galleryGrid');
+            
+            // Show loading state
+            document.querySelector('.loader').style.display = 'flex';
+            
+            // Clear existing content
+            grid.innerHTML = '';
+            
+            // Create and append all items at once using DocumentFragment
+            const fragment = createGalleryFragment(galleryItems);
+            grid.appendChild(fragment);
+            
+            // Observe all items for lazy loading
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                observer.observe(item);
+            });
+
+            // Initialize filter buttons with optimized event handling
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelector('.filter-btn.active').classList.remove('active');
+                    e.target.classList.add('active');
+                    filterGallery(e.target.dataset.filter);
+                });
+            });
+
+            // Hide loading state
+            document.querySelector('.loader').style.display = 'none';
+        }
+
+        // Optimized lightbox functionality
+        const lightbox = document.querySelector('.lightbox');
+        const lightboxContent = document.querySelector('.lightbox-content');
+        const lightboxClose = document.querySelector('.lightbox-close');
+
+        function openLightbox(item) {
+            const mediaElement = item.querySelector('video, img');
+            const newMedia = mediaElement.cloneNode(true);
+            
+            if (newMedia.tagName === 'VIDEO') {
+                newMedia.controls = true;
+                newMedia.muted = false;
+                newMedia.autoplay = true;
+                newMedia.removeAttribute('loop');
+                // Ensure video is loaded
+                if (newMedia.dataset.src) {
+                    newMedia.src = newMedia.dataset.src;
+                    delete newMedia.dataset.src;
+                }
+            } else {
+                // Ensure image is loaded
+                if (newMedia.dataset.src) {
+                    newMedia.src = newMedia.dataset.src;
+                    delete newMedia.dataset.src;
+                }
+            }
+            
+            lightboxContent.innerHTML = '';
+            lightboxContent.appendChild(newMedia);
+            lightbox.classList.add('active');
+        }
+
+        // Event delegation for better performance
+        document.getElementById('galleryGrid').addEventListener('click', (e) => {
+            const item = e.target.closest('.gallery-item');
+            if (item) {
+                openLightbox(item);
+            }
+        });
+
+        // Cleanup functions
+        function cleanupLightbox() {
+            const video = lightboxContent.querySelector('video');
+            if (video) {
+                video.pause();
+                video.src = '';
+                video.load();
+            }
+            lightbox.classList.remove('active');
+            lightboxContent.innerHTML = '';
+        }
+
+        lightboxClose.addEventListener('click', cleanupLightbox);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                cleanupLightbox();
+            }
+        });
+
+        // Initialize gallery when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initGallery);
+    </script>
+</body>
+</html>

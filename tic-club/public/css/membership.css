@@ -1,0 +1,704 @@
+/* Membership Benefits Styles */
+.membership-benefits {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #14182e 0%, #1c2344 100%);
+    color: white;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+.benefits-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    background: linear-gradient(90deg, #fff, #1da1f2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+}
+
+.section-subtitle {
+    color: #a7b1d8;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.section-subtitle-header {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.section-description {
+    color: #a7b1d8;
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+.section-block {
+    margin-bottom: 60px; /* Increase bottom margin for more separation */
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.section-block:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.member-directory,
+.alumni-contributions {
+    position: relative;
+    overflow: hidden;
+}
+
+.member-directory::before,
+.alumni-contributions::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #1da1f2, #14182e);
+}
+
+/* Optional: Different colors for each section header */
+.member-directory .section-subtitle-header {
+    color: #f2f2f2;
+    background: linear-gradient(90deg, #1da1f2, #14182e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    display: inline-block;
+}
+
+.alumni-contributions .section-subtitle-header {
+    color: #f2f2f2;
+    background: linear-gradient(90deg, #f2a91d, #14182e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    display: inline-block;
+}
+
+/* Benefits Grid */
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 80px;
+}
+
+.benefit-card {
+    background: rgba(28, 35, 68, 0.8);
+    border-radius: 15px;
+    padding: 30px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.benefit-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #1da1f2;
+    transform: scaleX(0);
+    transition: transform 0.3s;
+}
+
+.benefit-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.benefit-card:hover::before {
+    transform: scaleX(1);
+}
+
+.benefit-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(29, 161, 242, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.benefit-icon i {
+    font-size: 1.8rem;
+    color: #1da1f2;
+}
+
+.benefit-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.benefit-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.benefit-list li {
+    margin-bottom: 12px;
+    color: #a7b1d8;
+    padding-left: 20px;
+    position: relative;
+}
+
+.benefit-list li::before {
+    content: '•';
+    color: #1da1f2;
+    position: absolute;
+    left: 0;
+}
+
+/* Section Block Styles */
+.section-block {
+    background: rgba(28, 35, 68, 0.5);
+    border-radius: 15px;
+    padding: 40px;
+    margin-bottom: 60px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.section-block:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* How to Join Styles */
+.join-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.join-info h4, .registration-form h4 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.numbered-list {
+    list-style-type: decimal;
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+.numbered-list li {
+    color: #a7b1d8;
+    margin-bottom: 10px;
+}
+
+.join-form {
+    background: rgba(28, 35, 68, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #a7b1d8;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #2a3566;
+    border-radius: 5px;
+    background: rgba(20, 24, 46, 0.6);
+    color: white;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+/* Form validation and notification styles */
+.invalid {
+    border-color: #ff4444 !important;
+}
+
+.error-message {
+    color: #ff4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    z-index: 1000;
+    display: none;
+    animation: slideIn 0.3s ease-out;
+    max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.notification.success {
+    background-color: #28a745;
+}
+
+.notification.error {
+    background-color: #dc3545;
+}
+
+.notification.info {
+    background-color: #17a2b8;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Member Directory Styles */
+.directory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.member-card {
+    display: flex;
+    background: rgba(28, 35, 68, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform 0.3s;
+}
+
+.member-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.member-avatar {
+    flex: 0 0 100px;
+    margin-right: 20px;
+}
+
+.member-avatar img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #1da1f2;
+}
+
+.member-info {
+    flex: 1;
+}
+
+.member-info h4 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.member-role {
+    color: #1da1f2;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.member-bio {
+    color: #a7b1d8;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.member-achievements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.badge {
+    background: rgba(29, 161, 242, 0.15);
+    color: #1da1f2;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.view-more-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.view-more-button {
+    display: inline-block;
+    padding: 10px 25px;
+    background: transparent;
+    color: #1da1f2;
+    text-decoration: none;
+    border: 2px solid #1da1f2;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.view-more-button:hover {
+    background: rgba(29, 161, 242, 0.1);
+}
+
+/* Alumni Contributions Styles */
+.success-stories {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.story-card {
+    background: rgba(28, 35, 68, 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.story-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.story-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.story-content {
+    padding: 20px;
+}
+
+.story-content h4 {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.alumni-name {
+    color: #1da1f2;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.story-text {
+    color: #a7b1d8;
+    font-style: italic;
+}
+
+.alumni-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    text-align: center;
+    gap: 20px;
+    margin-top: 50px;
+}
+
+.stat-item {
+    padding: 30px;
+    background: rgba(28, 35, 68, 0.8);
+    border-radius: 10px;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1da1f2;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    color: #a7b1d8;
+}
+
+/* Alumni Grid Styles */
+.alumni-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.alumni-card {
+    background: rgba(28, 35, 68, 0.8);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.alumni-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.alumni-image {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+
+.alumni-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.alumni-card:hover .alumni-image img {
+    transform: scale(1.05);
+}
+
+.alumni-content {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.alumni-content h4 {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.alumni-title {
+    color: #1da1f2;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.alumni-achievements {
+    color: #a7b1d8;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.alumni-social {
+    margin-top: auto;
+}
+
+.linkedin-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(29, 161, 242, 0.1);
+    color: #1da1f2;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.linkedin-link:hover {
+    background: #1da1f2;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.linkedin-link i {
+    font-size: 1.2rem;
+}
+
+/* Button Styles */
+.level-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #1da1f2;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.level-button:hover {
+    background: #1991db;
+    transform: translateY(-2px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .benefits-grid {
+        gap: 20px;
+        padding: 0 15px;
+    }
+    
+    .join-content,
+    .success-stories {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .directory-grid {
+        grid-template-columns: 1fr;
+        padding: 0 15px;
+    }
+    
+    .alumni-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 0 15px;
+    }
+    
+    .section-block {
+        padding: 25px;
+        margin: 0 15px 40px;
+    }
+    
+    .member-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 25px;
+    }
+    
+    .member-avatar {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .member-achievements {
+        justify-content: center;
+    }
+
+    .benefit-card {
+        padding: 25px;
+    }
+
+    .benefit-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .benefit-icon i {
+        font-size: 1.5rem;
+    }
+
+    .benefit-card h3 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+
+    .alumni-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+    }
+
+    .join-form {
+        padding: 20px;
+    }
+
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+        padding: 8px;
+    }
+
+    .level-button {
+        padding: 10px 25px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .alumni-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .alumni-image {
+        height: 250px;
+    }
+
+    .alumni-content {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .membership-benefits {
+        padding: 60px 0;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .benefit-card,
+    .section-block {
+        padding: 20px;
+    }
+    
+    .directory-grid {
+        gap: 20px;
+    }
+}

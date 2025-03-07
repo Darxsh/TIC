@@ -1,0 +1,408 @@
+.events-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.events-filter {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: linear-gradient(135deg, #1e90ff, #6a11cb);
+    border-color: transparent;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px;
+}
+
+.event-card {
+    background: linear-gradient(135deg, #1a1f38, #0d1120);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.event-image-container {
+    overflow: hidden;
+    border-radius: 12px 12px 0 0;
+    height: 220px;
+}
+
+.event-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover .event-image {
+    transform: scale(1.05);
+}
+
+.event-content {
+    padding: 20px;
+}
+
+.event-title {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.event-date {
+    color: #1e90ff;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.event-description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.event-time {
+    display: inline-block;
+    background: rgba(30, 144, 255, 0.1);
+    padding: 5px 12px;
+    border-radius: 15px;
+    color: #1e90ff;
+    font-size: 0.9rem;
+    margin: 10px 0;
+}
+
+.event-coordinators {
+    margin: 15px 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.event-coordinators p {
+    margin: 5px 0;
+}
+
+.event-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.event-status {
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-upcoming {
+    background: rgba(30, 144, 255, 0.2);
+    color: #1e90ff;
+}
+
+.status-ongoing {
+    background: rgba(40, 167, 69, 0.2);
+    color: #28a745;
+}
+
+.status-past {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.register-btn[disabled] {
+    background: rgba(255, 255, 255, 0.1);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* TechFusion Notification Styles */
+.techfusion-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #1a1f38, #0d1120);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    animation: slideIn 0.5s ease-out;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.bot-animation {
+    width: 50px;
+    height: 60px;
+    position: relative;
+}
+
+.bot-head {
+    width: 30px;
+    height: 30px;
+    background: #1e90ff;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 auto;
+    animation: bobHead 2s infinite;
+}
+
+.bot-eye {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    animation: blink 3s infinite;
+}
+
+.bot-eye.left {
+    left: 6px;
+}
+
+.bot-eye.right {
+    right: 6px;
+}
+
+.bot-body {
+    width: 40px;
+    height: 20px;
+    background: #1e90ff;
+    border-radius: 10px;
+    margin: 5px auto 0;
+    animation: hover 2s infinite;
+}
+
+.notification-text {
+    flex-grow: 1;
+}
+
+.notification-text h3 {
+    color: #1e90ff;
+    margin: 0 0 5px;
+    font-size: 1.1rem;
+}
+
+.notification-text p {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s;
+}
+
+.notification-close:hover {
+    color: white;
+}
+
+/* Back Button Styles */
+.back-button-container {
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #1e90ff, #6a11cb);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.back-button:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.back-button i {
+    font-size: 0.9em;
+    transition: transform 0.3s ease;
+}
+
+.back-button:hover i {
+    transform: translateX(-3px);
+}
+
+/* Mobile Responsiveness for Back Button */
+@media (max-width: 768px) {
+    .back-button-container {
+        padding: 15px 0;
+    }
+    
+    .back-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Loading and No Events States */
+.loading-spinner {
+    text-align: center;
+    padding: 40px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+    grid-column: 1 / -1;
+}
+
+.loading-spinner::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 20px auto;
+    border: 3px solid rgba(30, 144, 255, 0.3);
+    border-top-color: #1e90ff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.no-events {
+    text-align: center;
+    padding: 40px;
+    color: rgba(255, 255, 255, 0.7);
+    grid-column: 1 / -1;
+}
+
+.no-events i {
+    font-size: 3rem;
+    color: #1e90ff;
+    margin-bottom: 15px;
+}
+
+.no-events p {
+    font-size: 1.1rem;
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes bobHead {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+@keyframes hover {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(2px); }
+}
+
+@keyframes blink {
+    0%, 45%, 55%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.1); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.fade-out {
+    animation: fadeOut 0.3s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .events-grid {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Tablet Responsiveness */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .events-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile Responsiveness for Notification */
+@media (max-width: 768px) {
+    .techfusion-notification {
+        left: 10px;
+        right: 10px;
+        top: 10px;
+    }
+    
+    .notification-text h3 {
+        font-size: 1rem;
+    }
+    
+    .notification-text p {
+        font-size: 0.85rem;
+    }
+}
