@@ -1,0 +1,211 @@
+/* Admin Panel Styles */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --danger-color: #e74c3c;
+    --success-color: #2ecc71;
+    --warning-color: #f1c40f;
+    --text-color: #333;
+    --bg-color: #f5f6fa;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Login Page Styles */
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* Dashboard Styles */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 60px 1fr;
+    min-height: 100vh;
+}
+
+header {
+    grid-column: 1 / -1;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+nav {
+    background-color: white;
+    padding: 1rem;
+    border-right: 1px solid #ddd;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav a {
+    display: block;
+    padding: 0.8rem 1rem;
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover,
+nav a.active {
+    background-color: var(--bg-color);
+    color: var(--secondary-color);
+}
+
+main {
+    padding: 2rem;
+}
+
+/* Calendar Events Management */
+.calendar-events {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.event-item {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.event-item button {
+    width: auto;
+    padding: 0.5rem 1rem;
+    margin-left: 0.5rem;
+}
+
+.event-item button[onclick*="delete"] {
+    background-color: var(--danger-color);
+}
+
+/* Settings Page */
+.settings {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* reCAPTCHA Styling */
+.g-recaptcha {
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* Error Messages */
+.error-message {
+    color: var(--danger-color);
+    background-color: rgba(231, 76, 60, 0.1);
+    padding: 0.8rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* Success Messages */
+.success-message {
+    color: var(--success-color);
+    background-color: rgba(46, 204, 113, 0.1);
+    padding: 0.8rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard-container {
+        grid-template-columns: 1fr;
+    }
+
+    nav {
+        display: none;
+    }
+
+    .event-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .event-item button {
+        margin: 0.5rem 0;
+        width: 100%;
+    }
+}

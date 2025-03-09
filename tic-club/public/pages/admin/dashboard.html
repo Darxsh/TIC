@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>TIC Admin Dashboard</h1>
+            <button onclick="logout()">Logout</button>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="#calendar-events" onclick="loadCalendarEvents()">Calendar Events</a></li>
+                <li><a href="#settings" onclick="loadSettings()">Settings</a></li>
+            </ul>
+        </nav>
+        <main id="dashboard-content">
+            <!-- Dynamic content will be loaded here -->
+        </main>
+    </div>
+    <script>
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', checkAuth);
+
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/admin/verify');
+                if (!response.ok) {
+                    window.location.href = '/admin/login';
+                }
+            } catch (error) {
+                window.location.href = '/admin/login';
+            }
+        }
+
+        async function logout() {
+            try {
+                await fetch('/api/admin/logout', { method: 'POST' });
+                window.location.href = '/admin/login';
+            } catch (error) {
+                console.error('Logout failed:', error);
+            }
+        }
+
+        async function loadCalendarEvents() {
+            try {
+                const response = await fetch('/api/admin/calendar-events');
+                const events = await response.json();
+                const content = document.getElementById('dashboard-content');
+                // Render calendar events management interface
+                content.innerHTML = `
+                    <div class="calendar-events">
+                        <h2>Calendar Events Management</h2>
+                        <div class="events-list">
+                            ${events.map(event => `
+                                <div class="event-item">
+                                    <h3>${event.title}</h3>
+                                    <p>${event.date}</p>
+                                    <button onclick="editEvent('${event._id}')">Edit</button>
+                                    <button onclick="deleteEvent('${event._id}')">Delete</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Failed to load calendar events:', error);
+            }
+        }
+
+        async function loadSettings() {
+            const content = document.getElementById('dashboard-content');
+            content.innerHTML = `
+                <div class="settings">
+                    <h2>Admin Settings</h2>
+                    <form id="changePasswordForm" onsubmit="return changePassword(event)">
+                        <div class="form-group">
+                            <input type="password" id="currentPassword" required placeholder="Current Password">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="newPassword" required placeholder="New Password">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="confirmPassword" required placeholder="Confirm New Password">
+                        </div>
+                        <button type="submit">Change Password</button>
+                    </form>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

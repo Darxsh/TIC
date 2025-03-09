@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIC Admin Login</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1>TIC Admin Login</h1>
+        <form id="loginForm" onsubmit="return handleLogin(event)">
+            <div class="form-group">
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const recaptchaResponse = grecaptcha.getResponse();
+
+            if (!recaptchaResponse) {
+                alert('Please complete the reCAPTCHA verification');
+                return false;
+            }
+
+            try {
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password, recaptchaResponse })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    window.location.href = '/admin/dashboard';
+                } else {
+                    alert(data.message || 'Login failed');
+                }
+            } catch (error) {
+                alert('An error occurred during login');
+            }
+            return false;
+        }
+    </script>
+</body>
+</html>
