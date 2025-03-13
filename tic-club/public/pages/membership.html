@@ -151,7 +151,11 @@
                         
                         <!-- reCAPTCHA container -->
                         <div class="form-group">
-                            <div id="recaptcha-container" class="g-recaptcha" data-sitekey="6LdQOtoqAAAAAOBBDWXiH3F7aaG3bORePMvzGUEl"></div>
+                            <div id="recaptcha-container" class="g-recaptcha" 
+                                data-sitekey="6LdQOtoqAAAAAOBBDWXiH3F7aaG3bORePMvzGUEl"
+                                data-callback="onRecaptchaSuccess"
+                                data-expired-callback="onRecaptchaExpired"
+                                data-error-callback="onRecaptchaError"></div>
                             <div id="recaptcha-error" class="error-message"></div>
                         </div>
                         
@@ -217,6 +221,33 @@
     <include src="/components/footer.html"></include>
     <script src="/js/form.js"></script>
     <script src="/js/include.js"></script>
+    <script>
+        // reCAPTCHA callbacks
+        function onRecaptchaSuccess(token) {
+            document.getElementById('recaptcha-error').textContent = '';
+        }
 
+        function onRecaptchaExpired() {
+            document.getElementById('recaptcha-error').textContent = 'reCAPTCHA has expired. Please verify again.';
+        }
+
+        function onRecaptchaError() {
+            document.getElementById('recaptcha-error').textContent = 'Error loading reCAPTCHA. Please check your internet connection.';
+        }
+
+        // Form submission handler
+        document.querySelector('.join-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (!recaptchaResponse) {
+                document.getElementById('recaptcha-error').textContent = 'Please complete the reCAPTCHA verification.';
+                return;
+            }
+
+            // Continue with form submission
+            this.submit();
+        });
+    </script>
 </body>
 </html>

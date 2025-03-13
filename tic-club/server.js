@@ -1,42 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const path = require('path');
 const nodemailer = require('nodemailer');
-const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const multer = require('multer');
-const jwt = require('jsonwebtoken');
 const fs = require('fs');
-const User = require('./models/User');
-
 const app = express();
 
-// Import models
-const Content = require('./models/Content');
-const Event = require('./models/Event');
-const Gallery = require('./models/Gallery');
-const Team = require('./models/Team');
-const Calendar = require('./models/Calendar');
-
-// Import routes
-const adminRoutes = require('./routes/admin');
-const publicRoutes = require('./routes/public');
-const eventRoutes = require('./routes/events');
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('MongoDB connection error:', err));
 
-// Middleware
-app.use(cors({
-    origin: true,
-    credentials: true
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 // Ensure uploads directory exists
 const uploadsDir = path.join(__dirname, 'public', 'uploads');
@@ -48,57 +24,6 @@ if (!fs.existsSync(eventsUploadsDir)) {
     fs.mkdirSync(eventsUploadsDir, { recursive: true });
 }
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadsDir);
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-    }
-});
-
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) {
-        cb(null, true);
-    } else {
-        cb(new Error('Not an image! Please upload an image.'), false);
-    }
-};
-
-const upload = multer({
-    storage: storage,
-    fileFilter: fileFilter,
-    limits: {
-        fileSize: 5 * 1024 * 1024 // 5MB limit
-    }
-});
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    if (err instanceof multer.MulterError) {
-        if (err.code === 'LIMIT_FILE_SIZE') {
-            return res.status(400).json({
-                message: 'File is too large. Maximum size is 5MB'
-            });
-        }
-        return res.status(400).json({
-            message: 'File upload error'
-        });
-    }
-    res.status(500).json({
-        message: 'Something went wrong!',
-        error: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
-    });
-});
-
-// Use routes
-app.use('/api/admin', adminRoutes);
-app.use('/api', publicRoutes);
-app.use('/api/events', eventRoutes);
-
 // Serve static files from public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -109,22 +34,6 @@ app.use('/pages', express.static(path.join(__dirname, 'public', 'pages')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'pages', 'home.html'));
 });
-
-// Route for admin panel
-app.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'admin', 'login.html'));
-});
-
-app.get('/admin/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'admin', 'login.html'));
-});
-
-app.get('/admin/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'admin', 'dashboard.html'));
-});
-
-// Serve admin static files
-app.use('/admin', express.static(path.join(__dirname, 'public', 'admin')));
 
 // Placeholder image service
 app.get('/api/placeholder/:width/:height', (req, res) => {
@@ -152,7 +61,7 @@ app.post('/api/register', async (req, res) => {
         const { username, email, password } = req.body;
 
         // Check if user already exists
-        const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+        const existingUser = await User.findOne({ $or: [{phone },{ email }, { username }] });
         if (existingUser) {
             return res.status(400).json({ 
                 message: 'User already exists with this email or username' 

@@ -152,75 +152,13 @@ document.addEventListener('DOMContentLoaded', function() {
     carousel.parentElement.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
     carousel.parentElement.addEventListener('mouseleave', () => autoplayInterval = setInterval(autoPlay, 5000));
     
-    // Enhanced Register button functionality
+    // Enhanced Register button functionality - Disabled
     const registerBtns = document.querySelectorAll('.register-btn');
     registerBtns.forEach(btn => {
         btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const card = this.closest('.card');
-            const eventTitle = card.querySelector('.card-title').textContent;
-            const eventDate = card.querySelector('.card-date').textContent;
-            
-            // Show registration form modal
-            showRegistrationModal(eventTitle, eventDate);
+            e.preventDefault(); // Prevent any default action
         });
     });
-    
-    // Registration Modal
-    function showRegistrationModal(eventTitle, eventDate) {
-        const modal = document.createElement('div');
-        modal.className = 'registration-modal';
-        modal.innerHTML = `
-            <div class="modal-content">
-                <h2>Register for ${eventTitle}</h2>
-                <form id="registrationForm">
-                    <input type="text" placeholder="Full Name" required>
-                    <input type="email" placeholder="Email" required>
-                    <input type="tel" placeholder="Phone Number" required>
-                    <input type="text" placeholder="College/Institution" required>
-                    <button type="submit" class="submit-btn">Submit Registration</button>
-                    <button type="button" class="cancel-btn">Cancel</button>
-                </form>
-            </div>
-        `;
-        
-        document.body.appendChild(modal);
-        
-        // Handle form submission
-        const form = modal.querySelector('#registrationForm');
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Here you would typically send the data to your backend
-            modal.innerHTML = `
-                <div class="modal-content success">
-                    <h2>Registration Successful!</h2>
-                    <p>You have been registered for ${eventTitle}</p>
-                    <p>We'll send the details to your email.</p>
-                    <button class="close-btn">Close</button>
-                </div>
-            `;
-            
-            modal.querySelector('.close-btn').addEventListener('click', () => {
-                modal.remove();
-                updateRegisterButton(eventTitle);
-            });
-        });
-        
-        // Handle cancel button
-        modal.querySelector('.cancel-btn').addEventListener('click', () => modal.remove());
-    }
-    
-    function updateRegisterButton(eventTitle) {
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            if (card.querySelector('.card-title').textContent === eventTitle) {
-                const btn = card.querySelector('.register-btn');
-                btn.innerHTML = 'Registered!';
-                btn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
-                btn.disabled = true;
-            }
-        });
-    }
     
     // Show notification on page load
     showNotification();

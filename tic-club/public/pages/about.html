@@ -9,6 +9,19 @@
     <link rel="stylesheet" href="/css/about.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="/js/loading.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.card img');
+            images.forEach(img => {
+                img.onerror = function() {
+                    const icon = document.createElement('i');
+                    icon.className = 'fa-solid fa-user fa-4x';
+                    icon.style.color = '#666';
+                    this.parentNode.replaceChild(icon, this);
+                };
+            });
+        });
+    </script>
 
 </head>
 
@@ -38,13 +51,9 @@
                 <h3>Faculty Coordinators</h3>
                 <div class="team-container">
                     <div class="card">
-                        <img src="faculty1.jpg" alt="Prof. Pooja Pawar">
+                        <img src="/images/members/pooja.jpg" alt="Prof. Pooja Pawar">
                         <h3>Prof. Pooja Pawar</h3>
                         <p>Faculty Coordinator</p>
-                        <div class="social-icons">
-                            <a href="#"><i class="fab fa-linkedin"></i></a>
-                            <a href="#"><i class="far fa-envelope"></i></a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -66,7 +75,7 @@
                         <h3>Yash Bari</h3>
                         <p>Co-Founder of TIC Club</p>
                         <div class="social-icons">
-                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="https://github.com/yashbari"><i class="fab fa-github"></i></a>
                             <a href="https://www.linkedin.com/in/yash-bari-221a14252/"><i class="fab fa-linkedin"></i></a>
                         </div>
                     </div>
@@ -105,7 +114,7 @@
                         </div>
                     </div>
                     <div class="card">
-                        <img src="/images/members/devraj.jpg" alt="Devraj Patil">
+                        <img src="/images/members/demo.jpg" alt="Devraj Patil">
                         <h3>Devraj Patil</h3>
                         <p>Developer</p>
                         <div class="social-icons">
@@ -114,7 +123,7 @@
                         </div>
                     </div>
                     <div class="card">
-                        <img src="/images/members/om.jpg" alt="Om Late">
+                        <img src="/images/members/demo.jpg" alt="Om Late">
                         <h3>Om Late</h3>
                         <p>Design/Developer</p>
                         <div class="social-icons">
@@ -141,7 +150,7 @@
                         </div>
                     </div>
                     <div class="card">
-                        <img src="/images/members/vedant.jpg" alt="Vedant Waghmare">
+                        <img src="/images/members/demo.jpg" alt="Vedant Waghmare">
                         <h3>Vedant Waghmare</h3>
                         <p>Designer & Developer</p>
                         <div class="social-icons">
